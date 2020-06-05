@@ -158,4 +158,7 @@ result_svm.to_csv('res_svm.csv', sep=',')
 for predicted_item, result in zip(predicted, y_test):
     print(category_list[predicted_item], ' - ', category_list[result])
     
+
+
 #-------------------------------------------------------------------------------------------------------------
+
