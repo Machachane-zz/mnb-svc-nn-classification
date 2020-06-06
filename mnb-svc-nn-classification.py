@@ -5,19 +5,19 @@ Created on Thu Jun  4 19:58:28 2020
 @author: Machachane
 """
 
-
-with open( 'news', 'r') as f:
+"""
+with open('news', 'r') as f:
     text = f.read()
     news = text.split('\n\n')
     count = {'sport': 0, 'world': 0, 'us': 0, 'business': 0, 'health': 0, 'entertainment': 0, 'sci_tech': 0}
     for news_item in news:
-        lines = news_item.split('\n')
+        lines = news_item.split("\n")
         print(lines[6])
         file_to_write = open('data/' + lines[6] + '/' + str(count[lines[6]]) + '.txt', 'w+')
         count[lines[6]] = count[lines[6]] + 1
         file_to_write.write(news_item)   #Python will convert \n to os.linesep
         file_to_write.close()
-        
+"""     
 #-------------------------------------------------------------------------------------------------------------
 
 import pandas
@@ -52,7 +52,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 #Get vector count
 count_vect = CountVectorizer()
-x_train_counts = count_vect.fit_transform(training_data.data)
+X_train_counts = count_vect.fit_transform(training_data.data)
 
 #Save word vector
 pickle.dump(count_vect.vocabulary_, open('count_vector.pkl', 'wb'))
@@ -60,10 +60,11 @@ pickle.dump(count_vect.vocabulary_, open('count_vector.pkl', 'wb'))
 
 #-------------------------------------------------------------------------------------------------------------
 
-from sklearn.feature_extraction import TfidfTransformer
+from sklearn.feature_extraction.text import TfidfTransformer
 
 #Transform word vector to TF IDF
 tfidf_transformer = TfidfTransformer()
+X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
 
 #Save TF-IDF
 pickle.dump(tfidf_transformer, open('tfidf.pkl', 'wb'))
@@ -75,7 +76,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import train_test_split
 
 #clf = MultinomialNB().fit(X_train_tfidf, training_data.flag)
-X_train, X_test, y_train, y_test = train_test_split(X_train_ttfidf, training_data.flag, test_size=0.25, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X_train_tfidf, training_data.flag, test_size=0.25, random_state=42)
 clf = MultinomialNB().fit(X_train, y_train)
 
 #Save Model
@@ -149,11 +150,11 @@ clf_svm = svm.LinearSVC()
 
 X_train, X_test, y_train, y_test = train_test_split(X_train_tfidf, training_data.flag, test_size=0.25, random_state=42)
 
-clf.svm.fit(X_train_tfidf, training_data.flag)
+clf_svm.fit(X_train_tfidf, training_data.flag)
 pickle.dump(clf_svm, open('svm.pkl', 'wb'))
 
 predicted = clf_svm.predict(X_test)
-resul_svm = pandas.DataFrame({'true_labels': y_test, 'predicted_labels': predicted})
+result_svm = pandas.DataFrame({'true_labels': y_test, 'predicted_labels': predicted})
 result_svm.to_csv('res_svm.csv', sep=',')
 for predicted_item, result in zip(predicted, y_test):
     print(category_list[predicted_item], ' - ', category_list[result])
