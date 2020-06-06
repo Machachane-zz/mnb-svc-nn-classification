@@ -12,3 +12,4 @@ Split train dataset and test dataset using train_test_split;
 Save the model in a pkl file (i.e. nb_model.pkl);
 Model - write a random phrase - load models - apply CountVectorizer, apply TfidfVectorizer - predict the category using the method;
 Run the prediction - save it in a csv file (i.e. res_bayes.csv) - print the output
+According to: https://www.youtube.com/watch?v=HeKchZ1dauM&t=630s
